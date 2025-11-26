@@ -3,8 +3,8 @@ CC = gcc
 
 all: clean string
 
-string: Makefile string.h string.c
-	$(CC) $(CFLAGS) string.c -o string
+string: Makefile string.h main.c
+	$(CC) $(CFLAGS) main.c -o main
 
 
 clang:
@@ -16,7 +16,7 @@ rebuild:
 	make all
 
 clean:
-	rm -rf string
+	rm -rf string 
 
 test:
 
