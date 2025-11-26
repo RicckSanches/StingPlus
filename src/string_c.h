@@ -4,6 +4,8 @@
 
 #include <stdio.h> // для NULL
 
-char *my_strchr(const char *str, int c);
+char *strchr(const char *str, int c);
+char *strrchr(const char *str, int c);
+
 
 #endif

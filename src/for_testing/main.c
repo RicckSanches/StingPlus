@@ -6,10 +6,13 @@
 int main() {
     char text[] = "Hello World";
     
-    char *result = my_strchr(text, 'W');
+    char *result = strchr(text, 'W');
+    char *result_last = strrchr(text, 'l');
+
 
     if (result != NULL) {
         printf("%s\n", result);  //World
+        printf("%s\n", result_last); //ld
     }
     
     return 0;
