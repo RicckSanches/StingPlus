@@ -25,6 +25,7 @@ START_TEST(test_strstr){
     const char* test1 = "Helloworld";
     const char* test2 = "world";
     const char* test3 = "";
+
     ck_assert_ptr_eq(s21_strstr(test1, test2), strstr(test1, test2));
     ck_assert_ptr_eq(s21_strstr(test1, test3), strstr(test1, test3));
     ck_assert_ptr_eq(s21_strstr(test3, test2), strstr(test3, test2));
@@ -57,15 +58,20 @@ START_TEST(test_strtok_full){
 }END_TEST
 
 START_TEST(test_memchr){
-
+    const void* test1 = "Hello world";
+    const void* test2 = "";
+    ck_assert_ptr_eq(s21_memchr(test1, 3, 11), memchr(test1, 3, 11));
+    ck_assert_ptr_eq(s21_memchr(test2, 1, 1), memchr(test2, 1, 1));
 }END_TEST
 
 Suite* s21_string_suite(){
     Suite* s = suite_create("s21_string");
+
     TCase* tc_strncmp = tcase_create("strncmp");
     TCase* tc_strpbrk = tcase_create("strpbrk");
     TCase* tc_strstr = tcase_create("strstr");
     TCase* tc_strtok = tcase_create("strtok");
+    TCase* tc_memchr = tcase_create("memchr");
 
     tcase_add_test(tc_strncmp, test_strncmp_basic);
     suite_add_tcase(s, tc_strncmp);
@@ -76,6 +82,9 @@ Suite* s21_string_suite(){
     tcase_add_test(tc_strtok, test_strtok_only_token);
     tcase_add_test(tc_strtok, test_strtok_full);
     suite_add_tcase(s, tc_strtok);
+    tcase_add_test(tc_memchr, test_memchr);
+    suite_add_tcase(s, tc_memchr);
+
     return s;
 }
 
