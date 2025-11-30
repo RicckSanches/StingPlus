@@ -25,7 +25,7 @@ int s21_strncmp(const char* str1, const char* str2, s21_size_t n) {
   }
   return result;
 }
-
+#if 0
 // TODO strlen заменить на s21_strlen
 char* s21_strpbrk(const char* str1, const char* str2) {
   s21_size_t str1_len = strlen(str1);
@@ -36,6 +36,21 @@ char* s21_strpbrk(const char* str1, const char* str2) {
       char c2 = str2[j];
       if (c1 == c2) return (char*)(str1 + i);
     }
+  }
+  return s21_NULL;
+}
+#endif
+
+char* s21_strpbrk(const char* str1, const char* str2){
+  if(!str1 || !str2) return s21_NULL;
+  while(*str1){
+    const char* pstr2 = str2;
+    while(*pstr2){
+      if(*str1 == *pstr2)
+        return (char*)str1;
+      pstr2++;
+    }
+    str1++;
   }
   return s21_NULL;
 }

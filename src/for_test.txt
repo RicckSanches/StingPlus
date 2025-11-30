@@ -1,0 +1,1 @@
+gcc s21_string.c s21_string_tests.c -lcheck -lm -lpthread -o test
