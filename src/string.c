@@ -1,29 +1,28 @@
 #include "string_c.h"
 
 //strchr находит первое вхождение символа в строке
-char *strchr(const char *str, int c) { // *str - массив символов, int c - число по каждому символу
-    char *result = NULL; // обнуляем переменную
-
-    while(*str != '\0') {   //пока не конец строки
-        if(*str == (char)c) { //сравнение номера нашего символа с его реальной цифрой
-            result = (char *)str; //если нашли - записали в переменную result
-            break; // выходим из функции
+char *strchr(const char *str, int c) { 
+    char *result = NULL; 
+    while(*str != '\0') {  
+        if(*str == (char)c) { 
+            result = (char *)str; 
+            break; 
 
         }
-        str++; // если не нашли переходим к следующему символу
+        str++; 
     }
-    return result; //выводим результат 
+    return result; 
 }
 
 
 //strrchr находит последнее вхождение строки
-char *strrchr(const char *str, int c) {// *str - массив символов, int c - число по каждому символу
-    char *result_last = NULL;// обнуляем переменную
+char *strrchr(const char *str, int c) {
+    char *result_strchr = NULL;
 
-    while (*str != '\0'){ //пока не конец строки
+    while (*str != '\0'){ 
 
-        if(*str == (char)c){//сравнение номера нашего символа с его реальной цифрой
-            result_last = (char *)str;//если нашли - записали в переменную result
+        if(*str == (char)c){
+            result_strchr = (char *)str;
             
             /*
             Разница в том, что мы не выходим из цикла, а доходим до последнего совпадения и выводим текст после нее
@@ -32,11 +31,42 @@ char *strrchr(const char *str, int c) {// *str - массив символов, 
         }
 
     
-        str++;// если не нашли переходим к следующему символу
+        str++;
     }
 
 
-    return result_last;
+    return result_strchr;
     
 }
 
+
+//Вычисляет длину начального сегмента str1, который полностью состоит из символов, не входящих в str2.
+
+size_t my_strcspn(const char *str1, const char *str2) { 
+
+    size_t result_strcspn = 0;
+    int is_end = 0;
+    //printf("%zu %zu\n", s21_strlen(str1), s21_strlen(str2));
+
+    for(size_t i = 0; i < s21_strlen(str1);i++) {
+
+        for(size_t j = 0; j < s21_strlen(str2); j++){
+            //printf("%c %c\n", str1[i], str2[j]);
+            if(str1[i] == str2[j]){
+                is_end = 1;
+                break;
+            }
+             
+        }
+
+        if(is_end == 1) {
+            break;
+        }
+          
+        result_strcspn++;
+    }
+
+    
+    return result_strcspn;
+
+}
