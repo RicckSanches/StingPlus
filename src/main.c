@@ -4,11 +4,14 @@
 #include <string.h>
 
 int main() {
-    char str1[20] = "sadwa  ";
-    char str2[] = "awds";
+    char a[] = "test";
+    char b[] = "test";
 
-    s21_strncat(str1, str2, 4);
-    printf("%s\n", str1);
+    int result = s21_memcmp(a, b, 4);
+    printf("%d\n", result);
+
+    result = memcmp(a, b, 4);
+    printf("%d\n", result);
 
     return 0;
 }

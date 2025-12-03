@@ -34,7 +34,7 @@ void *s21_memset(void *str, int c, s21_size_t n) {
 }
 
 int s21_memcmp(const void *str1, const void *str2, s21_size_t n) {
-    int result;
+    int result = 0;
     int are_equal = 1;
     const unsigned char* string1 = str1;
     const unsigned char* string2 = str2;
