@@ -3,9 +3,8 @@ CC = gcc
 
 all: clean string
 
-string: Makefile string.h main.c
-	$(CC) $(CFLAGS) main.c -o main
-
+string:
+	$(CC) $(CFLAGS) s21_string.c main.c -o main
 
 clang:
 	clang-format -n *.c *.h
