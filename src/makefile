@@ -3,8 +3,8 @@ CC = gcc
 
 all: clean string
 
-string: Makefile s21_strlen.c string.c string_c.h main.c
-	$(CC) $(CFLAGS) s21_strlen.c string.c string_c.h main.c -o main
+string: Makefile s21_strlen.c string.c string_c.h tests.c
+	$(CC) $(CFLAGS) s21_strlen.c string.c string_c.h s21_error.h tests.c -o test
 
 
 clang:
@@ -19,4 +19,5 @@ clean:
 	rm -rf string 
 
 test:
+
 
