@@ -4,14 +4,8 @@
 #include <string.h>
 
 int main() {
-    char a[] = "test";
-    char b[] = "test";
-
-    int result = s21_memcmp(a, b, 4);
-    printf("%d\n", result);
-
-    result = memcmp(a, b, 4);
-    printf("%d\n", result);
-
+    char str[100] = "awdswfasfiuawhfiuanfgiuhwg";
+    sprintf(str, "%.2d wdas", 8.92);
+    printf("%s\n", str);
     return 0;
 }

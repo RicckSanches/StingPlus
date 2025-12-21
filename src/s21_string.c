@@ -1,5 +1,4 @@
 #include "s21_string.h"
-#include <stdarg.h>
 
 s21_size_t s21_strlen(char *str) {
     s21_size_t res = 0;
@@ -71,57 +70,3 @@ char *s21_strncat(char *dest, const char *src, s21_size_t n) {
     return dest;
 }
 
-
-int s21_sprintf(char *str, const char *format, ...) {
-    va_list args;
-    va_start(args, format);
-
-    char* spec[100] = {0};
-    int spec_index = 0;
-
-    char* result[100] = {0};
-    int result_index = 0;
-
-    int writting_spec = 0;
-
-    for (char* c = format; *c; c++) {
-        if (writting_spec) {
-            if (*c == ' ' || *c == '\n' || *c == '\t') {
-                writting_spec = 0;
-                char* spec_result[100] = {0};
-                process_spec(spec_result, spec, spec_index);
-                
-                for (s21_size_t i = 0; i < s21_strlen(spec_result); i++) {
-                    result[result_index++] = spec_result[i];
-                }
-            }
-            else {
-                spec[spec_index++] = *c;
-            }
-        } 
-        else if (*c != '%') {
-            result[result_index++] =  *c;
-        }
-        else {
-            writting_spec = 1;
-            spec[spec_index++] = *c;
-        }
-    }
-    va_end(args);
-    return s21_strlen(str);
-}
-
-
-void process_spec(char* spec_string, char* spec, int spec_index) {
-    for (int i = 1; i < spec_index; i++) {
-        switch (spec[i])
-        {
-        case '2':
-            /* code */
-            break;
-        
-        default:
-            break;
-        }
-    }
-}
