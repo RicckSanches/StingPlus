@@ -1,23 +1,30 @@
-CFLAGS = -Wall -Werror -Wextra -std=c11
+# Makefile for building s21_sprintf static library and tests
+
 CC = gcc
+CFLAGS = -std=c11 -Wall -Wextra -O2
+CHECK_LIBS = -lcheck -lsubunit -pthread -lrt -lm
 
-all: clean string
+SRCS = s21_sprintf.c
+OBJS = $(SRCS:.c=.o)
 
-string: Makefile s21_strlen.c string.c string_c.h tests.c
-	$(CC) $(CFLAGS) s21_strlen.c string.c string_c.h s21_error.h tests.c -o test
+AR = ar
+ARFLAGS = rcs
 
+LIB = s21_string.a
+TEST_DIR = tests
+TEST_SRC = $(TEST_DIR)/s21_sprintf_test.c
+TEST_BIN = s21_sprintf_test
 
-clang:
-	clang-format -n *.c *.h
-	clang-format -i *.c *.h
+.PHONY: all clean test s21_string.a gcov_report
 
-rebuild:
-	make clean
-	make all
+all: $(LIB) test
+
+$(LIB): $(OBJS)
+	$(AR) $(ARFLAGS) $(LIB) $(OBJS)
+
+test: $(LIB)
+	$(CC) $(CFLAGS) -I. $(TEST_SRC) -L. -l:$(LIB) $(CHECK_LIBS) -o $(TEST_BIN)
+	./$(TEST_BIN)
 
 clean:
-	rm -rf string 
-
-test:
-
-
+	rm -f $(OBJS) $(LIB) $(TEST_BIN) *.gcda *.gcno *.gcov
