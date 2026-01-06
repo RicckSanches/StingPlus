@@ -2,10 +2,14 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdarg.h>
+#include <ctype.h>
+
 
 int main() {
-    char str[100] = "awdswfasfiuawhfiuanfgiuhwg";
-    sprintf(str, "%.2d wdas", 8.92);
+    char str[100];
+    s21_sprintf(str, "%c", 's');
     printf("%s\n", str);
     return 0;
 }
+
