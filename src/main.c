@@ -8,7 +8,7 @@
 
 int main() {
     char str[100];
-    s21_sprintf(str, "%c", 's');
+    s21_sprintf(str, "wads%c wds%cwdas", '22', '55');
     printf("%s\n", str);
     return 0;
 }

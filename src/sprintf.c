@@ -4,7 +4,7 @@
 
 #include <string.h>
 
-int s21_sprintf(char *str, const char *format, ...) {
+int s21_sprintf(char *str, char *format, ...) {
     va_list args;
     va_start(args, format);
 

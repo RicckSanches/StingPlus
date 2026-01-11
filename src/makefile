@@ -8,8 +8,11 @@ all: clean string
 string:
 	$(CC) $(CFLAGS) s21_string.c main.c -o main
 
-main: 
+main: clear_main
 	$(CC) sprintf.c s21_string.c main.c -o main
+
+clear_main:
+	rm -f main
 
 test:
 	gcc tests.c s21_string.c $(LCOVFLAGS) $(LDFLAGS) -o test_program
