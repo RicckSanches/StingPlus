@@ -137,7 +137,7 @@ char *s21_strerror(int errnum) {
     if (errnum < NUMBER_OF_ERRORS && errnum >= 0) {
         s21_strncpy(buffer, s21_error_array[errnum], 1024);
     } else {
-    sprintf(buffer, "%s %d", UNKNOWN, errnum);
+    s21_sprintf(buffer, "%s %d", UNKNOWN, errnum);
     }
     return buffer;
 }
