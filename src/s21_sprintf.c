@@ -334,34 +334,56 @@ int s21_format_pointer(char **out, const s21_format_t *fmt, va_list *args) {
 }
 
 int s21_format_float(char **out, const s21_format_t *fmt, va_list *args) {
-  char tmp[64];
-  int pos = 0;
-  tmp[pos++] = '%';
-  if (fmt->flag_minus) tmp[pos++] = '-';
-  if (fmt->flag_plus) tmp[pos++] = '+';
-  if (fmt->flag_space) tmp[pos++] = ' ';
-  if (fmt->flag_zero) tmp[pos++] = '0';
-  if (fmt->flag_hash) tmp[pos++] = '#';
-  if (fmt->width)
-    pos += snprintf(tmp + pos, (int)(sizeof tmp - pos), "%d", fmt->width);
-  if (fmt->precision_specified)
-    pos += snprintf(tmp + pos, (int)(sizeof tmp - pos), ".%d", fmt->precision);
-  tmp[pos++] = fmt->specifier;
-  tmp[pos] = '\0';
-  char buf[256];
+  double value;
   if (fmt->length == 'L') {
     long double ld = va_arg(*args, long double);
-    snprintf(buf, sizeof buf, tmp, ld);
+    value = (double)ld;
   } else {
-    double d = va_arg(*args, double);
-    snprintf(buf, sizeof buf, tmp, d);
+    value = va_arg(*args, double);
   }
-  int len = s21_strlen(buf);
+  
+  int precision = fmt->precision_specified ? fmt->precision : 6;
+  char buf[512];
+  int len = s21_float_to_str(value, buf, precision);
+  
+  int sign_len = (value < 0.0 || fmt->flag_plus || fmt->flag_space) ? 1 : 0;
+  int total = len + sign_len;
+  char pad = (fmt->flag_zero && !fmt->flag_minus && !fmt->precision_specified)
+                 ? '0'
+                 : ' ';
+  int padcnt = (fmt->width > total) ? fmt->width - total : 0;
+  
+  if (!fmt->flag_minus) {
+    for (int i = 0; i < padcnt; i++) {
+      **out = pad;
+      (*out)++;
+    }
+  }
+  
+  if (value < 0.0) {
+    **out = '-';
+    (*out)++;
+  } else if (fmt->flag_plus) {
+    **out = '+';
+    (*out)++;
+  } else if (fmt->flag_space) {
+    **out = ' ';
+    (*out)++;
+  }
+  
   for (int i = 0; i < len; i++) {
     **out = buf[i];
     (*out)++;
   }
-  return len;
+  
+  if (fmt->flag_minus) {
+    for (int i = 0; i < padcnt; i++) {
+      **out = ' ';
+      (*out)++;
+    }
+  }
+  
+  return (fmt->width > total) ? fmt->width : total;
 }
 
 int s21_format_string(char **out, const s21_format_t *fmt, va_list *args) {
@@ -379,12 +401,6 @@ int s21_format_char(char **out, va_list *args) {
   **out = (char)c;
   (*out)++;
   return 1;
-}
-
-int s21_strlen(const char *str) {
-  int i = 0;
-  while (str && str[i]) i++;
-  return i;
 }
 
 void s21_reverse(char *str, int len) {
@@ -442,4 +458,64 @@ void s21_apply_width(char **out, const char *buf, int len,
       **out = ' ';
       (*out)++;
     }
+}
+
+int s21_float_to_str(double value, char *buf, int precision) {
+  int pos = 0;
+  
+  if (value != value) {
+    buf[pos++] = 'n';
+    buf[pos++] = 'a';
+    buf[pos++] = 'n';
+    buf[pos] = '\0';
+    return pos;
+  }
+  
+  double inf_val = 1.0 / 0.0;
+  if (value == inf_val || value == -inf_val) {
+    buf[pos++] = 'i';
+    buf[pos++] = 'n';
+    buf[pos++] = 'f';
+    buf[pos] = '\0';
+    return pos;
+  }
+  
+  int is_negative = (value < 0.0);
+  if (is_negative) value = -value;
+  
+  long long int_part = (long long)value;
+  double frac_part = value - (double)int_part;
+  
+  double round_val = 0.5;
+  for (int i = 0; i < precision; i++) {
+    round_val /= 10.0;
+  }
+  frac_part += round_val;
+  
+  if (frac_part >= 1.0) {
+    int_part++;
+    frac_part -= 1.0;
+  }
+  
+  char int_buf[64];
+  int int_len = s21_int_to_str(int_part, int_buf, 0);
+  for (int i = 0; i < int_len; i++) {
+    buf[pos++] = int_buf[i];
+  }
+  
+  if (precision > 0) {
+    buf[pos++] = '.';
+    for (int i = 0; i < precision; i++) {
+      frac_part *= 10.0;
+      int digit = (int)frac_part;
+      if (digit > 9) digit = 9;
+      buf[pos++] = (char)('0' + digit);
+      frac_part -= (double)digit;
+    }
+  } else if (precision == 0) {
+    buf[pos++] = '.';
+  }
+  
+  buf[pos] = '\0';
+  return pos;
 }
