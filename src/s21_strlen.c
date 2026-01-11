@@ -1,4 +1,4 @@
-#include "string_c.h"
+#include "s21_string.h"
 typedef long unsigned s21_size_t;
 
 s21_size_t s21_strlen(const char *str)
