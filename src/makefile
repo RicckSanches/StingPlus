@@ -5,7 +5,7 @@ CFLAGS = -std=c11 -Wall -Wextra -O2
 GCOV_FLAGS = --coverage
 CHECK_LIBS = -lcheck -lsubunit -pthread -lrt -lm
 
-SRCS = s21_sprintf.c s21_string.c
+SRCS = s21_sprintf.c s21_string.c utils.c
 OBJS = $(SRCS:.c=.o)
 GCOV_OBJS = $(SRCS:.c=.gc.o)
 
@@ -17,8 +17,10 @@ LIB_GCOV = s21_string_gcov.a
 TEST_DIR = tests
 TEST_SRC = $(TEST_DIR)/s21_sprintf_test.c 
 TEST_SRC_STRING = $(TEST_DIR)/s21_string_test.c
+TEST_SRC_UTILS = $(TEST_DIR)/utils_tests.c
 TEST_BIN = s21_sprintf_test
 TEST_BIN_STRING = s21_string_test
+TEST_BIN_UTILS = utils_tests
 GCOV_DIR = report
 
 .PHONY: all clean test gcov_report
@@ -33,6 +35,8 @@ test: $(LIB)
 	./$(TEST_BIN)
 	$(CC) $(CFLAGS) -I. $(TEST_SRC_STRING) -L. $(LIB) $(CHECK_LIBS) -o $(TEST_BIN_STRING)
 	./$(TEST_BIN_STRING)
+	$(CC) $(CFLAGS) -I. $(TEST_SRC_UTILS) -L. $(LIB) $(CHECK_LIBS) -o $(TEST_BIN_UTILS)
+	./$(TEST_BIN_UTILS)
 
 %.gc.o: %.c
 	$(CC) $(CFLAGS) $(GCOV_FLAGS) -I. -c $< -o $@

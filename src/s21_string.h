@@ -10,8 +10,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define s21_NULL NULL
-typedef size_t s21_size_t;
+#define s21_NULL ((void*)0)
+#define s21_size unsigned long
 
 typedef struct {
   bool flag_minus;
@@ -48,7 +48,7 @@ int s21_format_float(char **out, const s21_format_t *fmt, va_list *args);
 int s21_format_string(char **out, const s21_format_t *fmt, va_list *args);
 int s21_format_char(char **out, va_list *args);
 
-s21_size_t s21_strlen(const char *str);
+s21_size s21_strlen(const char *str);
 void s21_reverse(char *str, int len);
 int s21_int_to_str(long long value, char *buf, int precision);
 int s21_uint_to_base(unsigned long long value, char *buf, int base,
@@ -57,14 +57,14 @@ void s21_apply_width(char **out, const char *buf, int len,
                      const s21_format_t *fmt, char pad_with);
 int s21_float_to_str(double value, char *buf, int precision);
 
-void *s21_memcpy(void *dest, const void *src, s21_size_t n);
-void *s21_memset(void *str, int c, s21_size_t n);
-int s21_memcmp(const void *str1, const void *str2, s21_size_t n);
-void *s21_memchr(const void *str, int c, s21_size_t n);
+void *s21_memcpy(void *dest, const void *src, s21_size n);
+void *s21_memset(void *str, int c, s21_size n);
+int s21_memcmp(const void *str1, const void *str2, s21_size n);
+void *s21_memchr(const void *str, int c, s21_size n);
 
-char *s21_strncpy(char *dest, const char *src, s21_size_t n);
-char *s21_strncat(char *dest, const char *src, s21_size_t n);
-int s21_strncmp(const char *str1, const char *str2, s21_size_t n);
+char *s21_strncpy(char *dest, const char *src, s21_size n);
+char *s21_strncat(char *dest, const char *src, s21_size n);
+int s21_strncmp(const char *str1, const char *str2, s21_size n);
 
 char *s21_strchr(const char *str, int c);
 char *s21_strrchr(const char *str, int c);
