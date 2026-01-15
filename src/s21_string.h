@@ -2,6 +2,7 @@
 #define S21_STRING_H_
 
 #include <limits.h>
+#include <math.h>
 #include <stdarg.h>
 #include <stdbool.h>
 #include <stddef.h>
@@ -10,7 +11,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define s21_NULL ((void*)0)
+#define s21_NULL ((void *)0)
 #define s21_size unsigned long
 
 typedef struct {
