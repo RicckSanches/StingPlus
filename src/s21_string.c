@@ -64,10 +64,20 @@ char *s21_strncpy(char *dest, const char *src, s21_size n) {
 }
 
 char *s21_strncat(char *dest, const char *src, s21_size n) {
-    s21_size dest_len = s21_strlen(dest);
-    for (s21_size i = 0; i < n; i++) {
-        dest[dest_len+i] = src[i];
+    if (dest == s21_NULL || src == s21_NULL) {
+        return dest;
     }
+    
+    s21_size dest_len = s21_strlen(dest);
+    s21_size i = 0;
+    
+    while (i < n && src[i] != '\0') {
+        dest[dest_len + i] = src[i];
+        i++;
+    }
+    
+    dest[dest_len + i] = '\0';
+    
     return dest;
 }
 

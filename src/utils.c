@@ -4,7 +4,7 @@
 
 void* to_upper(const char* str) {
   if (str == s21_NULL) return s21_NULL;
-  size_t len = 0;
+  s21_size len = 0;
   while (str[len] != '\0') {
     len++;
   }
@@ -25,14 +25,14 @@ void* to_upper(const char* str) {
 
 void* to_lower(const char* str) {
   if (str == s21_NULL) return s21_NULL;
-  size_t len = 0;
+  s21_size len = 0;
   while (str[len] != '\0') {
     len++;
   }
   char* res = malloc(len + 1);
   if (res == s21_NULL) return s21_NULL;
 
-  for (size_t i = 0; i < len; i++) {
+  for (s21_size i = 0; i < len; i++) {
     char c = str[i];
     if (c >= 'A' && c <= 'Z') {
       res[i] = c + 32;
@@ -59,9 +59,9 @@ void* insert(const char* src, const char* str, s21_size start_index) {
 
   s21_strncpy(result, src, start_index);
   result[start_index] = '\0';
-  s21_strcat(result, str);
-  s21_strcat(result, src + start_index);
-
+  s21_strncat(result, str, str_len);
+    
+  s21_strncat(result, src + start_index, src_len - start_index);
   return result;
 }
 
@@ -88,7 +88,7 @@ void* trim(const char* src, const char* trim_chars) {
     end--;
   }
 
-  size_t result_len = end - start + 1;
+  s21_size result_len = end - start + 1;
 
   char* result = (char*)malloc(result_len + 1);
   if (result == s21_NULL) {
