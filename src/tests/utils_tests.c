@@ -1,4 +1,8 @@
-#include "utils.h"
+#include <check.h>
+#include <string.h>
+#include <stdlib.h>
+
+#include "../utils.h"
 
 START_TEST(test_to_upper_normal) {
   const char* input = "Hello World!";

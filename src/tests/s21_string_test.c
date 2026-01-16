@@ -47,9 +47,9 @@ END_TEST
 START_TEST(test_strncat) {
   char dest1[100] = "hello";
   char dest2[100] = "hello";
-  const char *src = " world";
-  s21_strncat(dest1, src, 6);
-  strncat(dest2, src, 6);
+  const char *src = "world";
+  s21_strncat(dest1, src, strlen(src) + 1);
+  strncat(dest2, src, strlen(src) + 1);
   ck_assert_str_eq(dest1, dest2);
 }
 END_TEST
