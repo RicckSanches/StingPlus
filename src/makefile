@@ -61,4 +61,4 @@ gcov_report: clean $(LIB_GCOV)
 	@echo "Open $(GCOV_DIR)/index.html in your browser to view the report"
 
 clean:
-	rm -rf $(OBJS) $(GCOV_OBJS) $(LIB) $(LIB_GCOV) $(TEST_BIN) $(TEST_BIN_STRING) *.gcda *.gcno *.gcov $(GCOV_DIR)
+	rm -rf $(OBJS) $(GCOV_OBJS) $(LIB) $(LIB_GCOV) $(TEST_BIN) $(TEST_BIN_STRING) $(TEST_BIN_UTILS) *.gcda *.gcno *.gcov *.log *.tap $(GCOV_DIR)
